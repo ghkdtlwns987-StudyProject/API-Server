@@ -1,0 +1,10 @@
+[[Member-Signup]]
+== Member 회원가입
+
+[[Member-가입]]
+=== Member 회원가입
+operation::member-signup[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[Member-중복-가입]]
+=== Member 중복 가입
+operation::member-duplicate-signup[snippets='http-request,path-parameters,http-response,response-fields']

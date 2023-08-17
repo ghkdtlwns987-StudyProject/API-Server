@@ -1,0 +1,6 @@
+[[Member-getMemberInfo]]
+== Member 검색
+
+[[Member-Find]]
+=== Member 회원 검색
+operation::member-getMemberInfo[snippets='http-request,path-parameters,http-response,response-fields']

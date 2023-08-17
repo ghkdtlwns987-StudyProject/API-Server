@@ -1,0 +1,6 @@
+= StudyProject Rest Docs
+
+회원::
+* link:member-signup-api-docs.adoc[회원가입]
+* link:member-search-api-docs.adoc[회원검색]
+* link:member-update-api-docs.adoc[회원수정]

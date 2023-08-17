@@ -1,0 +1,52 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: studyProject-ApiServer
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+    defer-datasource-initialization: true
+  session:
+    store-type: redis
+    timeout: 10
+  redis:
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 2
+    host: localhost
+    port: 6379
+
+auth:
+  authentication:
+    url: http://localhost:8000/authentication
+  authorization:
+    url: http://localhost:8000/authorization
+api:
+  member:
+    url: http://localhost:8000/members
+
+jenkins:
+  url: http://117.16.17.165:30000
+  user: k8s_jenkins165
+  token: 11c3e76f61b7258dfb5e457d66bc05f64b
+
+file:
+  path: ./
+
+jwt:
+  secret: asdjklfasdfhj123948y128907md49810274s902187m2xio131234bo1ui23yu4mv21poi

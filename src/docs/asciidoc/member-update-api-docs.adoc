@@ -1,0 +1,6 @@
+[[Member-Update]]
+== Member 회원수정
+
+[[Member-수정]]
+=== Member 회원수정
+operation::member-update[snippets='http-request,path-parameters,http-response,response-fields']
