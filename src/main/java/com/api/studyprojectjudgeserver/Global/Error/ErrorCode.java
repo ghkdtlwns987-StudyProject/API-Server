@@ -32,13 +32,15 @@ public enum ErrorCode {
     AUTHORIZATION_HEADER_INVALID(400, "A002", "invalid Authorization Header"),
 
     // Jenkins
+    PROJECT_NOT_EXIST(404, "J001", "project not exist"),
     INVALID_PORT_NUMBER(404, "J001", "invalid port number(port number must bigger then 0"),
     SERVICE_NAME_ALREADY_EXISTS(3, "J002", "service name is already exists"),
     JENKINS_CREATE_REQUEST_ERROR(404, "J004", "[POST] Jenkins Job Failed"),
     JENKINS_GET_JOB_REQUEST_ERROR(404, "J004", "[GET] Jenkins Job Failed"),
     JENKINS_BUILD_REQUEST_ERROR(404, "J005", "[POST] Jenkins Build Request Failed"),
     JENKINS_BUILD_RESULT_REQUEST_ERROR(404, "J006", "[GET] Jenkins Build Result Request Failed"),
-    JENKINS_LAST_BUILD_REQUEST_ERROR(404, "J007", "[GET] Jenkins Last Build Request Failed");
+    JENKINS_LAST_BUILD_REQUEST_ERROR(404, "J007", "[GET] Jenkins Last Build Request Failed"),
+    JENKINS_CONFIG_XML_GENERATE_ERROR(500, "J008", "Config.xml File Generate Error");
 
     private int status;
     private final String code;

@@ -1,2 +1,95 @@
-<?xml version='1.0' encoding='utf-8'?>
-<project><actions /><description>Authentication Server</description><keepDependencies>false</keepDependencies><properties><com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.7.15"><gitLabConnection /><jobCredentialId /><useAlternativeCredential>false</useAlternativeCredential></com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty></properties><scm><class>hudson.plugins.git.GitSCM</class><plugin>git@5.2.0</plugin><configVersion>2</configVersion><userRemoteConfigs><hudson.plugins.git.UserRemoteConfig><url>https://lab.hanium.or.kr/23_HI066/23_HI066.git</url><credentialsId /></hudson.plugins.git.UserRemoteConfig></userRemoteConfigs><branches><hudson.plugins.git.BranchSpec><name>*/deploy</name></hudson.plugins.git.BranchSpec></branches><doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations><submoduleCfg class="empty-list" /><extensions /></scm><canRoam>true</canRoam><disabled>false</disabled><blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding><blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding></project>
+<project>
+    <actions/>
+    <description>Authentication Server</description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.37.0">
+            <projectUrl>https://github.com/ghkdtlwns987-StudyProject/AuthServer/</projectUrl>
+            <displayName/>
+        </com.coravy.hudson.plugins.github.GithubProjectProperty>
+        <com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.7.15">
+            <gitLabConnection/>
+            <jobCredentialId/>
+            <useAlternativeCredential>false</useAlternativeCredential>
+        </com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty>
+    </properties>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@5.2.0">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url>https://github.com/ghkdtlwns987-StudyProject/AuthServer</url>
+                <credentialsId>ghkdtlwns987-Github</credentialsId>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>*/main</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="empty-list"/>
+        <extensions/>
+    </scm>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers>
+        <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.37.0">
+            <spec/>
+        </com.cloudbees.jenkins.GitHubPushTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.tasks.Shell>
+            <command>chmod +x gradlew ./gradlew clean build mkdir -p dist cp ./build/libs/*.jar ./dist/ tar -zcvf deploy.tar.gz ./dist</command>
+            <configuredLocalRules/>
+        </hudson.tasks.Shell>
+        <hudson.tasks.Shell>
+            <command>aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 600359243171.dkr.ecr.ap-northeast-2.amazonaws.com docker build -t ghkdtlwns987-test-authserver . docker tag ghkdtlwns987-test-authserver:latest 600359243171.dkr.ecr.ap-northeast-2.amazonaws.com/ghkdtlwns987-test-authserver:latest docker push 600359243171.dkr.ecr.ap-northeast-2.amazonaws.com/ghkdtlwns987-test-authserver:latest</command>
+            <configuredLocalRules/>
+        </hudson.tasks.Shell>
+        <jenkins.plugins.publish__over__ssh.BapSshBuilderPlugin plugin="publish-over-ssh@1.24">
+            <delegate>
+                <consolePrefix>SSH: </consolePrefix>
+                <delegate plugin="publish-over@0.22">
+                    <publishers>
+                        <jenkins.plugins.publish__over__ssh.BapSshPublisher plugin="publish-over-ssh@1.24">
+                            <configName>master</configName>
+                            <verbose>false</verbose>
+                            <transfers>
+                                <jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                                    <remoteDirectory/>
+                                    <sourceFiles/>
+                                    <excludes/>
+                                    <removePrefix/>
+                                    <remoteDirectorySDF>false</remoteDirectorySDF>
+                                    <flatten>false</flatten>
+                                    <cleanRemote>false</cleanRemote>
+                                    <noDefaultExcludes>false</noDefaultExcludes>
+                                    <makeEmptyDirs>false</makeEmptyDirs>
+                                    <patternSeparator>[, ]+</patternSeparator>
+                                    <execCommand>docker pull 600359243171.dkr.ecr.ap-northeast-2.amazonaws.com/ghkdtlwns987-test-authserver:latest</execCommand>
+                                    <execTimeout>120000</execTimeout>
+                                    <usePty>false</usePty>
+                                    <useAgentForwarding>false</useAgentForwarding>
+                                    <useSftpForExec>false</useSftpForExec>
+                                </jenkins.plugins.publish__over__ssh.BapSshTransfer>
+                            </transfers>
+                            <useWorkspaceInPromotion>false</useWorkspaceInPromotion>
+                            <usePromotionTimestamp>false</usePromotionTimestamp>
+                        </jenkins.plugins.publish__over__ssh.BapSshPublisher>
+                    </publishers>
+                    <continueOnError>false</continueOnError>
+                    <failOnError>false</failOnError>
+                    <alwaysPublishFromMaster>false</alwaysPublishFromMaster>
+                    <hostConfigurationAccess class="jenkins.plugins.publish_over_ssh.BapSshPublisherPlugin" reference="../.."/>
+                </delegate>
+            </delegate>
+        </jenkins.plugins.publish__over__ssh.BapSshBuilderPlugin>
+    </builders>
+    <publishers/>
+    <buildWrappers>
+        <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.23"/>
+    </buildWrappers>
+</project>

@@ -21,8 +21,9 @@ public enum ResultCode {
     USER_UPDATE_SUCCESS(200, "M006", "회원정보 수정 완료"),
     DELETE_USER_SUCCESS(200, "M007", "회원정보 삭제 완료"),
 
-    CREATE_JOB_REQUEST_SUCCESS(200, "R001", "등록 되었습니다");
-
+    CREATE_JOB_REQUEST_SUCCESS(200, "R001", "등록 되었습니다"),
+    GET_JOB_STATUS_REQUEST_SUCCESS(200, "R002", "조회 되었습니다"),
+    RUN_JOB_REQUEST_SUCCESS(200, "R003", "실행 되었습니다.");
 
     private int status;
     private final String code;

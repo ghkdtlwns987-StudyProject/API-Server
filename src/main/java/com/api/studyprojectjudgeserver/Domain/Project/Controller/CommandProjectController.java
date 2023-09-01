@@ -1,6 +1,6 @@
 package com.api.studyprojectjudgeserver.Domain.Project.Controller;
 
-import com.api.studyprojectjudgeserver.Domain.Project.Dto.CreateJobResponseDto;
+import com.api.studyprojectjudgeserver.Domain.Project.Dto.JobResponseDto;
 import com.api.studyprojectjudgeserver.Domain.Member.Controller.CommandMemberController;
 import com.api.studyprojectjudgeserver.Domain.Member.Dto.ResultResponse;
 import com.api.studyprojectjudgeserver.Domain.Project.Dto.ProjectDto;
@@ -9,6 +9,8 @@ import com.api.studyprojectjudgeserver.Global.ResultCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -22,12 +24,44 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RequiredArgsConstructor
 public class CommandProjectController {
     private final CommandProjectService commandProjectService;
-
     @PostMapping("/project/job")
-    //@PreAuthorize("hasRole('ROLE_USER')")
-    public EntityModel<ResultResponse> createProject(@RequestBody ProjectDto createJobRequestDto) throws Exception {
-        CreateJobResponseDto createJobResponseDto = commandProjectService.createProject(createJobRequestDto);
-        ResultResponse resultResponse = ResultResponse.of(ResultCode.CREATE_JOB_REQUEST_SUCCESS, createJobResponseDto);
+    public EntityModel<ResultResponse> createProject(@RequestBody @Valid ProjectDto createJobRequestDto) throws Exception {
+        JobResponseDto jobResponseDto = commandProjectService.createProject(createJobRequestDto);
+        //ProjectDto projectDto = commandProjectService.createProject(createJobRequestDto);
+        ResultResponse resultResponse = ResultResponse.of(ResultCode.CREATE_JOB_REQUEST_SUCCESS, jobResponseDto);
+
+        EntityModel<ResultResponse> entityModel = EntityModel.of(resultResponse);
+        entityModel.add(linkTo(CommandMemberController.class).withSelfRel());
+
+        return entityModel;
+    }
+
+    @PostMapping("/project/run/{loginId}")
+    public EntityModel<ResultResponse> runProject(@RequestParam String loginId, @RequestBody ProjectDto projectDto) throws Exception {
+        ProjectDto jobResponseDto = commandProjectService.runProject(loginId, projectDto);
+        ResultResponse resultResponse = ResultResponse.of(ResultCode.RUN_JOB_REQUEST_SUCCESS, jobResponseDto);
+
+        EntityModel<ResultResponse> entityModel = EntityModel.of(resultResponse);
+        entityModel.add(linkTo(CommandMemberController.class).withSelfRel());
+
+        return entityModel;
+    }
+
+    @GetMapping("/project/job/{loginId}")
+    public EntityModel<ResultResponse> getAllProjectStatus(@RequestParam String loginId, @RequestBody ProjectDto projectDto) throws Exception{
+        ProjectDto jobResponseDto = commandProjectService.getAllProjectStatus(loginId, projectDto);
+        ResultResponse resultResponse = ResultResponse.of(ResultCode.GET_JOB_STATUS_REQUEST_SUCCESS, jobResponseDto);
+
+        EntityModel<ResultResponse> entityModel = EntityModel.of(resultResponse);
+        entityModel.add(linkTo(CommandMemberController.class).withSelfRel());
+
+        return entityModel;
+    }
+
+    @GetMapping("/project/job/{serviceName}")
+    public EntityModel<ResultResponse> getProjectStatus(@RequestParam String serviceName, @RequestBody ProjectDto projectDto) throws Exception{
+        ProjectDto jobResponseDto = commandProjectService.getProjectStatus(serviceName, projectDto);
+        ResultResponse resultResponse = ResultResponse.of(ResultCode.GET_JOB_STATUS_REQUEST_SUCCESS, jobResponseDto);
 
         EntityModel<ResultResponse> entityModel = EntityModel.of(resultResponse);
         entityModel.add(linkTo(CommandMemberController.class).withSelfRel());

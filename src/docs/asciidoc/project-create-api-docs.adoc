@@ -1,0 +1,10 @@
+[[Project-Create]]
+== Project 생성
+
+[[Project-생성]]
+=== Project 생성
+operation::project-create[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[Project-생성-중복]]
+=== Project 중복 생성(프로젝트 명 겹침)
+operation::member-duplicate-signup[snippets='http-request,path-parameters,http-response,response-fields']

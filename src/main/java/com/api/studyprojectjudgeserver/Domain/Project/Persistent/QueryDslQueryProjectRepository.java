@@ -23,6 +23,14 @@ public class QueryDslQueryProjectRepository implements QueryProjectRepository {
     }
 
     @Override
+    public Optional<ProjectEntity> findByServiceName(String serviceName) {
+        QProjectEntity qProject = QProjectEntity.projectEntity;
+        return Optional.ofNullable(queryFactory.selectFrom(qProject)
+                .where(qProject.serviceName.eq(serviceName))
+                .fetchFirst());
+    }
+
+    @Override
     public boolean existsServiceByServiceName(String serviceName) {
         QProjectEntity qProject = QProjectEntity.projectEntity;
         return Optional.ofNullable(queryFactory.selectFrom(qProject)

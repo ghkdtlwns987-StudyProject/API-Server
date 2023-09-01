@@ -1,1 +1,0 @@
-cat output.json | awk '{print $7}'

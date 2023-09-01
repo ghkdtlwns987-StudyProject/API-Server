@@ -18,4 +18,7 @@ public class JenkinsConfig {
 
     @Value("${file.path}")
     public String pathVal;
+
+    @Value("${JENKINS_CREDENTIAL}")
+    public String jenkinsCredential;
 }

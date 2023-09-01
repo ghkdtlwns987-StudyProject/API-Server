@@ -5,11 +5,12 @@ AUTHORIZATION: http://localhost:8000/authorization
 MEMBER: http://localhost:8000/members
 JENKINS: http://117.16.17.165:30000
 JENKINS_USER: k8s_jenkins165
-JENKINS_TOKEN: 11c3e76f61b7258dfb5e457d66bc05f64b
+JENKINS_TOKEN: 111771fcf88cc2f8afaa25ff24b51a313c
+JENKINS_CREDENTIAL: k8s_jenkins165:111771fcf88cc2f8afaa25ff24b51a313c
 JWT: asdjklfasdfhj123948y128907md49810274s902187m2xio131234bo1ui23yu4mv21poi
 LOG_LEVEL: DEBUG
 
-FILEPATH: ./
+FILEPATH: /Users/ghkdtlwns987/Spring/studyProject/studyProject-ApiServer
 PROMETHEUS: 8300
 
 server:
