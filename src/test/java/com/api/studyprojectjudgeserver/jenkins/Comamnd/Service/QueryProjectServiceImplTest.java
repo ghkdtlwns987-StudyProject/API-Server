@@ -30,7 +30,7 @@ public class QueryProjectServiceImplTest {
     private String NICKNAME = "test-nickname";
     private String PWD = "test-Password";
     private String PHONE = "010-1234-1234";
-    private String SERVICENAME = "testServiceName";
+    private String SERVICENAME = "testserviceName";
     private String GITHUBURL = "https://ghkdtlwns987.git";
     private int SERVICEPORT = 9999;
     private String BUILDPACKAGE = "Gradle";
@@ -99,15 +99,17 @@ public class QueryProjectServiceImplTest {
     @Test
     @DisplayName("existsServiceName Test")
     public void existsServiceNameTest() {
-        boolean result = queryProjectService.existsServiceName(project.getServiceName());
+        when(queryProjectRepository.existsServiceByServiceName(project.getServiceName())).thenReturn(true);
+        boolean result = queryProjectService.existsServiceName(SERVICENAME);
         assertTrue(result);
     }
 
     @Test
     @DisplayName("findProjectByServiceName Test")
     public void findProjectByServiceNameTest() {
-        ProjectEntity result = queryProjectService.findProjectByServiceName(project.getServiceName());
-        assertNotNull(result);
+        when(queryProjectRepository.findByServiceName(project.getServiceName())).thenReturn(Optional.of(project));
+        ProjectEntity result = queryProjectService.findProjectByServiceName(SERVICENAME);
+        assertEquals(result.getServiceName(), SERVICENAME);
     }
 
     @Test

@@ -45,9 +45,11 @@ public class MemberEntity extends BaseTimeEntity{
     private String phone;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
     private List<String> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "memberEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<ProjectEntity> projects = new ArrayList<>();
 
     public void update(String password, String nickname, String phone){
